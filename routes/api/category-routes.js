@@ -39,7 +39,6 @@ router.post('/', async (req, res) => {
   try{
     const categoryData = await Category.create(req.body);
     return res.status(200).json(categoryData)
-
   }catch (err){
     return res.status(500).json(err)
   }
@@ -52,8 +51,8 @@ router.put('/:id', async (req, res) => {
     if (!categoryData){
       return res.status(404).json({message: 'No category found with that id.'})
     }
-    await categoryData.update({category_name:req.body})
-    return res.status(200).json({message: `${categoryData} updated`})
+    await categoryData.update({category_name:req.body.category_name})
+    return res.status(200).json({message: `Category ID #${categoryData.id} updated`})
 
   }catch (err){
     return res.status(500).json(err)
@@ -62,14 +61,14 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   // delete a category by its `id` value
-  try{
-    const categoryData = await Tag.findByPk(req.params.id);
-    if (!categoryData){
+  try{    
+    const categoryData = await Category.findByPk(req.params.id);
+    if (!categoryData){      
       return res.status(404).json({message: "No category found with that id."})
-    }
+    }    
     await categoryData.destroy();
-    return res.status(200).json({message: `${categoryData} deleted`})
-  }catch(err){
+    return res.status(200).json({message: `Category ID #${categoryData.id} deleted`})
+  }catch(err){    
     return res.status(500).json(err)
 
   }
